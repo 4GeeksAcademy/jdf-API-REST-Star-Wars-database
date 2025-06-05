@@ -45,6 +45,54 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
+# PEOPLE ENDPOINTS
+# ------------------------------------
+@app.route('/people', methods=['GET'])
+def get_people():
+    people = Person.query.all()
+    return jsonify([p.serialize() for p in people]), 200
+
+@app.route('/people/<int:people_id>', methods=['GET'])
+def get_person(people_id):
+    person = Person.query.get(people_id)
+    if not person:
+        return jsonify({"error": "Person not found"}), 404
+    return jsonify(person.serialize()), 200
+
+
+# PLANET ENDPOINTS
+# ------------------------------------
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    planets = Planet.query.all()
+    return jsonify([p.serialize() for p in planets]), 200
+
+@app.route('/planets/<int:planet_id>', methods=['GET'])
+def get_planet(planet_id):
+    planet = Planet.query.get(planet_id)
+    if not planet:
+        return jsonify({"error": "Planet not found"}), 404
+    return jsonify(planet.serialize()), 200
+
+
+
+    # USER ENDPOINTS
+# ------------------------------------
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify([u.serialize() for u in users]), 200
+
+@app.route('/users/favorites', methods=['GET'])
+def get_user_favorites():
+    # Simulamos el "usuario actual" como el primer user (sin autenticación)
+    user = User.query.first()
+    if not user:
+        return jsonify({"error": "No user found"}), 404
+    return jsonify([fav.serialize() for fav in user.favorites]), 200
+
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
