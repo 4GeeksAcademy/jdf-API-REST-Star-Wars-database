@@ -92,7 +92,7 @@ def get_planet(planet_id):
     return jsonify(planet.serialize()), 200
 
 # FAVORITES ENDPOINTS
-
+# -----------------------
 @app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
 def add_favorite_planet(planet_id):
     user_ User.query.first()
