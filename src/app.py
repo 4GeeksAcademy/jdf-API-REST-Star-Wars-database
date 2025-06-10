@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Person, Planet, Favorite
 #from models import Person
 
 app = Flask(__name__)
@@ -95,7 +95,7 @@ def get_planet(planet_id):
 # -----------------------
 @app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
 def add_favorite_planet(planet_id):
-    user_ User.query.first()
+    user = User.query.first()
     planet = Planet.query.get(planet_id)
     if not planet:
         return jsonify({"error": "planet not found"}), 404
@@ -107,7 +107,7 @@ def add_favorite_planet(planet_id):
 
 @app.route('/favorite/people/<int:people_id>', methods=['POST'])
 def add_favorite_person(people_id):
-    user _ User.query.first()
+    user = User.query.first()
     person = Person.query.get(people_id)
     if not person:
         return jsonify({"error": "person not found"}), 404
@@ -120,7 +120,8 @@ def add_favorite_person(people_id):
 @app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
 def delete_favorite_planet(planet_id):
     user = User.query.first()
-    favorite = Favorite.query.filter_by(user_id=user.id, planet_id=planet.id).first()
+    favorite = Favorite.query.filter_by(user_id=user.id, planet_id = planet_id).first()
+
     if not favorite:
         return jsonify({"error": "Favorite not found"}), 404
     db.session.delete(favorite)
