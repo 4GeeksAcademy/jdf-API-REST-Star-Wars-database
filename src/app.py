@@ -9,7 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Person, Planet, Favorite
-#from models import Person
+#from models import PersonA
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -47,6 +47,8 @@ def handle_hello():
 
 
         # USER ENDPOINTS
+
+        
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -144,4 +146,4 @@ def delete_favorite_person(people_id):
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
-    app.run(host='0.0.0.0', port=PORT, debug=False)
+    app.run(host='0.0.0.0', port=PORT, debug=True)
